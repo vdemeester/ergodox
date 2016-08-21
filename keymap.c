@@ -54,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   `    | 1/F1 | 2/F2 | 3/F3 | 4/F4  | 5/F5 | F11  |           | F12/%| 6/F6 | 7/F7 | 8/F8 | 9/F9 | 0/F10 |   -    |
+ * |   `    | 1/F1 | 2/F2 | 3/F3 | 4/F4  | 5/F5 | F11/Ins  |           | F12/%| 6/F6 | 7/F7 | 8/F8 | 9/F9 | 0/F10 |   -    |
  * |--------+------+------+------+-------+-------------|           |------+------+------+------+------+-------+--------|
  * | Tab    |   Q  |   W  |   E  |   R   |   T  |Backsp|           |Backsp|   Y  |   U  |   I  |   O  |   P   |   =    |
  * |--------+------+------+------+-------+------|ace   |           |ace   |------+------+------+------+-------+--------|
@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                ,------+-------+------|       |------+------+------.
  *                                |      |       | PgDn |       | PgDn |      |      |
  *                                |Space |Backsp |------|       |------|RShift|Enter |
- *                                |      |       | Ctl |       | Ctl |      |      |
+ *                                |      |       | Ctl  |       |  Ctl |      |      |
  *                                `---------------------'       `--------------------'
  */
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
@@ -87,7 +87,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_SPC,    KC_BSPC,  CTL_T(KC_ESC),
 
                 // right hand
-                // TODO(vdemeester) KC_EQUAL on KF_12
                 M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
                 KC_BSPC,     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRACKET,
                 KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  SFT_T(KC_QUOT),
@@ -112,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
+ *                                        |      |      |       |      | Caps |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |      |      |------|       |------|      |      |
@@ -136,7 +135,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                      KC_UNDEFINED,   KC_LEFT,        KC_DOWN,         KC_RIGHT,        KC_PGDN, KC_UNDEFINED,
        KC_BTN2, KC_UNDEFINED,   KC_UNDEFINED,   KC_UNDEFINED,    KC_UNDEFINED,    KC_UNDEFINED, KC_UNDEFINED,
                      KC_UNDEFINED,   KC_UNDEFINED,   KC_UNDEFINED,    KC_UNDEFINED,    KC_UNDEFINED,
-       KC_TRNS, KC_TRNS,
+       KC_TRNS, KC_CAPS,
        KC_TRNS,
        KC_TRNS, KC_TRNS,   KC_TRNS
 ),
@@ -214,6 +213,11 @@ static void handle_kf (keyrecord_t *record, uint8_t id)
       kc_base = KC_F1;
     } else {
       kc_base = KC_1;
+      if (code == 10) {
+        kc_base = KC_F5;
+      } else if (code == 11) {
+        kc_base = KC_7;
+      }
     }
     kf_timers[code] = 0;
     code += kc_base;
