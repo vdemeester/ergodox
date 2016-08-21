@@ -79,18 +79,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_GRV,    M(KF_1),   M(KF_2),   M(KF_3),        M(KF_4),  M(KF_5),  M(KF_11),
                 KC_TAB,       KC_Q,      KC_W,      KC_E,           KC_R,     KC_T,   KC_BSPC,
                 F(F_NMEDIA),     KC_A,      KC_S,      KC_D,           KC_F,     KC_G,
-                KC_LSFT,      KC_Z,      KC_X,      KC_C,           KC_V,     KC_B,    KC_ENT,
+                SFT_T(KC_BSLASH),      KC_Z,      KC_X,      KC_C,           KC_V,     KC_B,    KC_ENT,
                 KC_LCTL,  M(MFNLR),    KC_TRNS,  KC_LGUI,  ALT_T(KC_ESC),
-
+                
                 KC_DELT,  KC_PGUP,
                 KC_PGDN,
                 KC_SPC,    KC_BSPC,  CTL_T(KC_ESC),
 
                 // right hand
+                // TODO(vdemeester) KC_EQUAL on KF_12
                 M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
-                KC_BSPC,     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     KC_EQL,
+                KC_BSPC,     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRACKET,
                 KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  SFT_T(KC_QUOT),
-                KC_ENT,      KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  SFT_T(KC_BSLS),
+                KC_ENT,      KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_RBRACKET,
                 KC_RALT, KC_RBRC, KC_HOME, KC_LBRC,   CTL_T(KC_END),
                 
                 KC_PGUP, KC_DELT,
