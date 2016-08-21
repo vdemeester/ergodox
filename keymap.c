@@ -14,11 +14,31 @@ enum {
   FNLR,
 };
 
-#define MDBL0 1
-#define MFNLR 2
-#define MCUT  3
-#define MCOPY 4
-#define MPSTE 5
+/* Macros */
+enum {
+  MDBL0 = 0,
+
+  MFNLR,
+
+  // Function / number keys
+  KF_1, // 1, F1
+  KF_2, // 2, F2
+  KF_3, // ...
+  KF_4,
+  KF_5,
+  KF_6,
+  KF_7,
+  KF_8,
+  KF_9,
+  KF_10,
+  KF_11,
+  KF_12,
+
+  // Cut/Copy/Paste
+  MCUT,
+  MCOPY,
+  MPSTE
+};
 
 /* Fn keys */
 enum {
@@ -28,6 +48,9 @@ enum {
   F_ALT,
   F_CTRL
 };
+
+/* States & timers */
+uint16_t kf_timers[12];
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Basic layer
@@ -54,28 +77,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // If it accepts an argument (i.e, is a function), it doesn't need KC_.
 // Otherwise, it needs KC_*
 [BASE] = KEYMAP(  // layer 0 : default
-        // left hand
-        KC_GRV,         KC_1,         KC_2,   KC_3,   KC_4,   KC_5,   KC_DELT,
-        KC_TAB,         KC_Q,         KC_W,   KC_E,   KC_R,   KC_T,   KC_BSPC,
-        M(MFNLR),       KC_A,         KC_S,   KC_D,   KC_F,   KC_G,
-        KC_LSFT,        KC_Z,         KC_X,   KC_C,   KC_V,   KC_B,   KC_ENT,
-        KC_LCTL,    M(MFNLR),      F(F_BEPO), KC_LGUI,ALT_T(KC_ESC),
+                // left hand
+                KC_GRV,    M(KF_1),   M(KF_2),   M(KF_3),        M(KF_4),  M(KF_5),  M(KF_11),
+                KC_TAB,       KC_Q,      KC_W,      KC_E,           KC_R,     KC_T,   KC_BSPC,
+                M(MFNLR),     KC_A,      KC_S,      KC_D,           KC_F,     KC_G,
+                KC_LSFT,      KC_Z,      KC_X,      KC_C,           KC_V,     KC_B,    KC_ENT,
+                KC_LCTL,  M(MFNLR),  F(F_BEPO),  KC_LGUI,  ALT_T(KC_ESC),
 
-                                              KC_MPLY,  TG(NUMR),
-                                                              KC_PGUP,
-                                            KC_SPC, KC_BSPC,  KC_PGDN,
+                KC_DELT,  TG(NUMR),
+                KC_PGUP,
+                KC_SPC,    KC_BSPC,  KC_PGDN,
 
-        // right hand
-             KC_DELT,     KC_6,   KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,
-             KC_BSPC,     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     KC_EQL,
-                          KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  SFT_T(KC_QUOT),
-             KC_ENT,      KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  SFT_T(KC_BSLS),
-                                  KC_RALT, KC_RBRC, KC_HOME, KC_LBRC,   CTL_T(KC_END),
-
-             KC_LEFT, KC_RGHT,
-             KC_UP,
-             KC_DOWN, KC_RSFT,  KC_ENT
-    ),
+                // right hand
+                M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
+                KC_BSPC,     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     KC_EQL,
+                KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  SFT_T(KC_QUOT),
+                KC_ENT,      KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  SFT_T(KC_BSLS),
+                KC_RALT, KC_RBRC, KC_HOME, KC_LBRC,   CTL_T(KC_END),
+                
+                KC_LEFT, KC_RGHT,
+                KC_UP,
+                KC_DOWN, KC_RSFT,  KC_ENT
+         ),
 /* Keymap 0: Basic layer
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
@@ -261,33 +284,66 @@ const uint16_t PROGMEM fn_actions[] = {
   [F_CTRL] = ACTION_MODS_ONESHOT (MOD_LCTL)
 };
 
+static bool from_appsel;
+
+static void handle_kf (keyrecord_t *record, uint8_t id)
+{
+  uint8_t code = id - KF_1;
+  
+  if (record->event.pressed) {
+    kf_timers[code] = timer_read ();
+  } else {
+    uint8_t kc_base;
+
+    if (from_appsel) {
+      from_appsel = false;
+      return;
+    }
+
+    if (kf_timers[code] && timer_elapsed (kf_timers[code]) > TAPPING_TERM) {
+      // Long press
+      kc_base = KC_F1;
+    } else {
+      kc_base = KC_1;
+    }
+    kf_timers[code] = 0;
+    code += kc_base;
+
+    register_code (code);
+    unregister_code (code);
+  }
+}
+
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
   // MACRODOWN only works in this function
     switch(id) {
     case MDBL0:
-            if (record->event.pressed) {
-              return MACRO( I(25), T(P0), T(P0), END );
-            }
-        break;
-        case MFNLR:
-            layer_state ^= (1 << NUMR) | (1 << FNLR);
-            break;
-        case MCUT:
-            if (record->event.pressed) {
-                return MACRO(D(LSFT), T(DELT), U(LSFT), END);
-            }
-            break;
-        case MCOPY:
-            if (record->event.pressed) {
-                return MACRO(D(LCTL), T(INS), U(LCTL), END);
-            }
-            break;
-        case MPSTE:
-            if (record->event.pressed) {
-                return MACRO(D(LSFT), T(INS), U(LSFT), END);
-            }
-            break;
+      if (record->event.pressed) {
+        return MACRO( I(25), T(P0), T(P0), END );
+      }
+      break;
+    case MFNLR:
+      layer_state ^= (1 << NUMR) | (1 << FNLR);
+      break;
+    case MCUT:
+      if (record->event.pressed) {
+        return MACRO(D(LSFT), T(DELT), U(LSFT), END);
+      }
+      break;
+    case MCOPY:
+      if (record->event.pressed) {
+        return MACRO(D(LCTL), T(INS), U(LCTL), END);
+      }
+      break;
+    case MPSTE:
+      if (record->event.pressed) {
+        return MACRO(D(LSFT), T(INS), U(LSFT), END);
+      }
+      break;
+    case KF_1 ... KF_12:
+      handle_kf (record, id);
+      break;
     }
     return MACRO_NONE;
 };
