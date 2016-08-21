@@ -214,9 +214,9 @@ static void handle_kf (keyrecord_t *record, uint8_t id)
     } else {
       kc_base = KC_1;
       if (code == 10) {
-        kc_base = KC_F5;
+        kc_base = KC_F6;
       } else if (code == 11) {
-        kc_base = KC_7;
+        kc_base = KC_6;
       }
     }
     kf_timers[code] = 0;
