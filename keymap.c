@@ -1,8 +1,9 @@
 /* vdemeester personal ergodox layout  */
 #include "ergodox.h"
-#include "debug.h"
-#include "action_layer.h"
 #include "led.h"
+#include "action_layer.h"
+#include "action_util.h"
+#include "eeconfig.h"
 #include "keymap_bepo.h"
 
 /* Layers */
@@ -80,11 +81,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 KC_TAB,       KC_Q,      KC_W,      KC_E,           KC_R,     KC_T,   KC_BSPC,
                 F(F_NMEDIA),     KC_A,      KC_S,      KC_D,           KC_F,     KC_G,
                 SFT_T(KC_BSLASH),      KC_Z,      KC_X,      KC_C,           KC_V,     KC_B,    KC_ENT,
-                KC_LCTL,  M(MFNLR),    KC_TRNS,  KC_LGUI,  ALT_T(KC_ESC),
+                KC_LCTL,  M(MFNLR),    KC_LEAD,  KC_LGUI,  ALT_T(KC_ESC),
                 
                 KC_DELT,  KC_PGUP,
                 KC_PGDN,
-                KC_SPC,    KC_BSPC,  CTL_T(KC_ESC),
+                KC_SPC,    KC_BSPC,  F(F_CTRL),
 
                 // right hand
                 M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
@@ -95,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                 
                 KC_PGUP, KC_DELT,
                 KC_PGDN,
-                KC_LCTL, KC_RSFT,  KC_ENT
+                F(F_CTRL), F(F_SFT),  KC_ENT
          ),
 /* Navigation and media layer
  *
