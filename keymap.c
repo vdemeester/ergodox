@@ -123,13 +123,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [NMDIA] = KEYMAP(
        // left hand
        KC_UNDEFINED,  KC_F1,         KC_F2,         KC_F3,         KC_F4,         KC_F5,         KC_F6,
-       KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_MS_U,       KC_UNDEFINED,  KC_WH_U,  KC_UNDEFINED,
+       KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_MS_U,       KC_UNDEFINED,  KC_WH_U,  KC_VOLU,
        KC_TRNS,       KC_UNDEFINED,  KC_MS_L,       KC_MS_D,       KC_MS_R,       KC_WH_D,  
-       KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,
+       KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_VOLD,
        KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_TRNS,       KC_TRNS,
-                                                                                  KC_TRNS,  KC_TRNS,
+                                                                                  KC_MUTE,  KC_TRNS,
                                                                                                  KC_TRNS,
-                                                                   KC_TRNS,  KC_TRNS,  KC_TRNS,
+                                                                   KC_MPLY,  KC_TRNS,  KC_TRNS,
        // right hand
        KC_F7,        KC_F8,          KC_F9,          KC_F10,          KC_F11,          KC_F12,       KC_UNDEFINED,
        KC_BTN1, KC_UNDEFINED,   KC_HOME,        KC_UP,           KC_END,          KC_PGUP, KC_UNDEFINED,
@@ -138,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                      KC_UNDEFINED,   KC_UNDEFINED,   KC_UNDEFINED,    KC_UNDEFINED,    KC_UNDEFINED,
        KC_TRNS, KC_CAPS,
        KC_TRNS,
-       KC_TRNS, KC_TRNS,   KC_TRNS
+       KC_TRNS, KC_MPRV,   KC_MNXT
 ),
 /* fn layer
  *
@@ -228,6 +228,8 @@ static void handle_kf (keyrecord_t *record, uint8_t id)
   }
 }
 
+LEADER_EXTERNS();
+
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
   // MACRODOWN only works in this function
@@ -269,6 +271,24 @@ void matrix_init_user(void) {
 
 };
 
+void tap (uint16_t codes[]) {
+  for (int i = 0; codes[i] != 0; i++) {
+    register_code (codes[i]);
+    unregister_code (codes[i]);
+    wait_ms (50);
+  }
+}
+
+void do_unicode (void) {
+  register_code (KC_RCTL);
+  register_code (KC_RSFT);
+  register_code (KC_U);
+  unregister_code (KC_U);
+  unregister_code (KC_RSFT);
+  unregister_code (KC_RCTL);
+  wait_ms (100);
+}
+
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
 
@@ -279,12 +299,16 @@ void matrix_scan_user(void) {
     ergodox_right_led_2_off();
     ergodox_right_led_3_off();
 
+    ergodox_right_led_1_set (LED_BRIGHTNESS_LO);
+    ergodox_right_led_2_set (LED_BRIGHTNESS_LO);
+    ergodox_right_led_3_set (LED_BRIGHTNESS_LO);
+    
     // led 3: caps lock
     if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
       ergodox_right_led_1_on();
     }
     switch (layer) {
-    case FNLR:
+    case NMDIA:
       ergodox_right_led_2_on();
       break;
       //case NUMR:
@@ -294,6 +318,22 @@ void matrix_scan_user(void) {
       // none
       break;
     }
+
+    
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end ();
+
+    SEQ_ONE_KEY (KC_U) {
+      do_unicode();
+    }
+
+    SEQ_ONE_KEY (BP_Y) {
+      uint16_t codes[] = {BP_O, BP_SLSH, 0};
+      tap (codes);
+    }
+
+  }
     /* // led 1: numeric layer */
     /* if (layer_state & (1 << NUMR)) { */
     /*     ergodox_right_led_2_on(); */
