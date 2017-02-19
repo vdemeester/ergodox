@@ -129,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_TRNS,       KC_UNDEFINED,  KC_MS_L,       KC_MS_D,       KC_MS_R,       KC_WH_D,
                    KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_VOLD,
                    KC_TRNS,       KC_TRNS,       KC_UNDEFINED,  KC_TRNS,       KC_TRNS,
-                   KC_MUTE,  KC_TRNS,
+                   KC_MUTE,  KC_LEAD,
                    KC_TRNS,
                    KC_MPRV,  KC_MNXT,  KC_TRNS,
                    // right hand
@@ -140,7 +140,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_UNDEFINED,   KC_UNDEFINED,   KC_UNDEFINED,    KC_UNDEFINED,    KC_UNDEFINED,
                    KC_TRNS, KC_CAPS,
                    KC_TRNS,
-                   KC_TRNS, KC_LEAD,   KC_MPLY
+                   KC_TRNS, KC_TRNS,   KC_MPLY
                    ),
   /* fn layer
    *
