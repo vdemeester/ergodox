@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                       |  Del  | PgUp |       | PgUp |  Del |
    *                                ,------+-------+------|       |------+------+------.
    *                                |      |       | PgDn |       | PgDn |      |      |
-   *                                |Space |Backsp |------|       |------|RShift|Enter |
+   *                                |Space | LShft |------|       |------|RShift|Enter |
    *                                |      |       | Ctl  |       |  Ctl |      |      |
    *                                `---------------------'       `--------------------'
    */
@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
                   KC_DELT,  KC_PGUP,
                   KC_PGDN,
-                  KC_SPC,    KC_BSPC,  F(F_CTRL),
+                  KC_SPC,    KC_LSHIFT,  F(F_CTRL),
 
                   // right hand
                   M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
