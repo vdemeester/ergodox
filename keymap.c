@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
                   KC_DELT,  KC_PGUP,
                   KC_PGDN,
-                  KC_SPC,    KC_LSHIFT,  F(F_CTRL),
+                  KC_SPC,    KC_LSHIFT,  KC_LCTL,
 
                   // right hand
                   M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
                   KC_PGUP, KC_DELT,
                   KC_PGDN,
-                  F(F_CTRL), F(F_SFT),  KC_ENT
+                  KC_RCTL, F(F_SFT),  KC_ENT
                     ),
   /* Navigation and media layer
    *
@@ -213,10 +213,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                   KC_TAB,       KC_KP_1,             KC_KP_2,             KC_UP,                KC_KP_3,          KC_KP_4,          KC_BSPC,
                   BP_A,         KC_KP_5,             KC_LEFT,             KC_DOWN,              KC_RIGHT,         KC_KP_6,
                   BP_B,         KC_KP_7,             KC_KP_8,             KC_KP_9,              KC_KP_0,          BP_C,             KC_ENT,
-                  KC_MUTE,      KC_VOLU,             KC_VOLD,             KC_LGUI,              KC_LALT,
+                  KC_MUTE,      KC_VOLU,             KC_VOLD,             KC_LGUI,              ALT_T(KC_ESC),
                   KC_DELETE,        KC_RGUI,
                   KC_LALT,
-                  KC_SPC,           KC_LSHIFT,        CTL_T(KC_ESCAPE),
+                  KC_SPC,           KC_LSHIFT,        KC_LCTL,
                   // right hand
                   KC_UNDEFINED, KC_UNDEFINED,        KC_UNDEFINED,        KC_UNDEFINED,         KC_UNDEFINED,     KC_UNDEFINED,     KC_UNDEFINED,
                   KC_UNDEFINED, KC_UNDEFINED,        KC_UNDEFINED,        KC_UNDEFINED,         KC_UNDEFINED,     KC_UNDEFINED,     KC_UNDEFINED,
