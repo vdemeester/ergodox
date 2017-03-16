@@ -20,20 +20,6 @@ enum {
 
   MFNLR,
 
-  // Function / number keys
-  KF_1, // 1, F1
-  KF_2, // 2, F2
-  KF_3, // ...
-  KF_4,
-  KF_5,
-  KF_6,
-  KF_7,
-  KF_8,
-  KF_9,
-  KF_10,
-  KF_11,
-  KF_12,
-
   // Cut/Copy/Paste
   MCUT,
   MCOPY,
@@ -79,7 +65,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Otherwise, it needs KC_*
   [BASE] = KEYMAP(  // layer 0 : default
                   // left hand
-                  KC_GRV,    M(KF_1),   M(KF_2),   M(KF_3),        M(KF_4),  M(KF_5),  M(KF_11),
+		  KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_INSERT,
                   KC_TAB,       KC_Q,      KC_W,      KC_E,           KC_R,     KC_T,   KC_BSPC,
                   F(F_NMEDIA),     KC_A,      KC_S,      KC_D,           KC_F,     KC_G,
                   SFT_T(KC_BSLASH),      KC_Z,      KC_X,      KC_C,           KC_V,     KC_B,    KC_ENT,
@@ -90,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                   KC_SPC,    KC_LSHIFT,  KC_LCTL,
 
                   // right hand
-                  M(KF_12),     M(KF_6),   M(KF_7),    M(KF_8),    M(KF_9),    M(KF_10),     KC_MINS,
+		  KC_EQUAL, KC_6, KC_7, KC_8, KC_9, KC_0, KC_MINS,
                   KC_BSPC,     KC_Y,   KC_U,    KC_I,    KC_O,    KC_P,     KC_LBRACKET,
                   KC_H,   KC_J,    KC_K,    KC_L,    KC_SCLN,  SFT_T(KC_QUOT),
                   KC_ENT,      KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_RBRACKET,
@@ -238,41 +224,6 @@ const uint16_t PROGMEM fn_actions[] = {
   [F_CTRL]   = ACTION_MODS_ONESHOT (MOD_LCTL)
 };
 
-static bool from_appsel;
-
-static void handle_kf (keyrecord_t *record, uint8_t id)
-{
-  uint8_t code = id - KF_1;
-
-  if (record->event.pressed) {
-    kf_timers[code] = timer_read ();
-  } else {
-    uint8_t kc_base;
-
-    if (from_appsel) {
-      from_appsel = false;
-      return;
-    }
-
-    if (kf_timers[code] && timer_elapsed (kf_timers[code]) > TAPPING_TERM) {
-      // Long press
-      kc_base = KC_F1;
-    } else {
-      kc_base = KC_1;
-      if (code == 10) {
-        kc_base = KC_F6;
-      } else if (code == 11) {
-        kc_base = KC_6;
-      }
-    }
-    kf_timers[code] = 0;
-    code += kc_base;
-
-    register_code (code);
-    unregister_code (code);
-  }
-}
-
 LEADER_EXTERNS();
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -303,9 +254,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     if (record->event.pressed) {
       return MACRO(D(LSFT), T(INS), U(LSFT), END);
     }
-    break;
-  case KF_1 ... KF_12:
-    handle_kf (record, id);
     break;
   }
   return MACRO_NONE;
