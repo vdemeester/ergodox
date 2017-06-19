@@ -122,8 +122,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                    KC_F7,        KC_F8,          KC_F9,          KC_F10,          KC_F11,          KC_F12,       KC_UNDEFINED,
                    KC_BTN1, KC_UNDEFINED,   KC_HOME,        KC_UP,           KC_END,          KC_PGUP, KC_UNDEFINED,
                    KC_UNDEFINED,   KC_LEFT,        KC_DOWN,         KC_RIGHT,        KC_PGDN, KC_UNDEFINED,
-                   KC_BTN2, KC_UNDEFINED,   KC_UNDEFINED,   KC_UNDEFINED,    KC_UNDEFINED,    KC_UNDEFINED, KC_UNDEFINED,
-                   KC_UNDEFINED,   KC_UNDEFINED,   KC_UNDEFINED,    KC_UNDEFINED,    KC_UNDEFINED,
+                   KC_BTN2, KC_UNDEFINED,   RGB_TOG,   RGB_MOD,    RGB_HUI,    RGB_HUD, KC_UNDEFINED,
+                   RGB_SAI,   RGB_SAD,   RGB_SAD,    RGB_VAI,    RGB_VAD,
                    KC_TRNS, KC_CAPS,
                    KC_TRNS,
                    KC_TRNS, KC_TRNS,   KC_MPLY
@@ -287,7 +287,7 @@ void matrix_scan_user(void) {
 
   uint8_t layer = biton32(layer_state);
 
-  ergodox_board_led_off();
+  ergodox_board_led_on();
   ergodox_right_led_1_off();
   ergodox_right_led_2_off();
   ergodox_right_led_3_off();
