@@ -13,8 +13,8 @@ checked out to something like `keyboards/ergodox_ez/keymaps/sbr`.
 $ git clone https://github.com/jackhumbert/qmk_firmware.git
 $ cd qmk_firmware
 $ git clone https://github.com/vdemeester/ergodox.git \
-            keyboards/ergodox/keymaps/sbr
-$ make keyboard=ergodox keymap=sbr
+            keyboards/ergodox-ez/keymaps/sbr
+$ make ergodox-ez:sbr
 ```
 
 Then you can load it into the [Ergodox EZ][ez].

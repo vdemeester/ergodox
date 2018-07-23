@@ -1,5 +1,5 @@
 /* vdemeester personal ergodox layout  */
-#include "ergodox.h"
+#include QMK_KEYBOARD_H
 #include "led.h"
 #include "action_layer.h"
 #include "action_util.h"
@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    */
   // If it accepts an argument (i.e, is a function), it doesn't need KC_.
   // Otherwise, it needs KC_*
-  [BASE] = KEYMAP(  // layer 0 : default
+  [BASE] = LAYOUT_ergodox(  // layer 0 : default
                   // left hand
 		  KC_GRV, KC_1, KC_2, KC_3, KC_4, KC_5, KC_INSERT,
                   KC_TAB,       KC_Q,      KC_W,      KC_E,           KC_R,     KC_T,   KC_BSPC,
@@ -108,7 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                 `--------------------'       `--------------------'
    */
   // SYMBOLS
-  [NMDIA] = KEYMAP(
+  [NMDIA] = LAYOUT_ergodox(
                    // left hand
                    KC_UNDEFINED,  KC_F1,         KC_F2,         KC_F3,         KC_F4,         KC_F5,         KC_F6,
                    KC_UNDEFINED,  KC_UNDEFINED,  KC_UNDEFINED,  KC_MS_U,       KC_UNDEFINED,  KC_WH_U,  KC_VOLU,
@@ -150,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                 `--------------------'       `--------------------'
    */
   // MEDIA AND MOUSE
-  [FNLR] = KEYMAP(
+  [FNLR] = LAYOUT_ergodox(
                   KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS,     KC_TRNS,      KC_TRNS, KC_INS,
                   KC_TRNS, KC_TRNS, KC_TRNS,      KC_TRNS,     KC_TRNS,      KC_TRNS, KC_VOLU,
                   KC_TRNS, KC_TRNS, KC_TRNS,      KC_CALC,     KC_MAIL,      KC_WHOM,
@@ -193,7 +193,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                 |      |      |ctr/Es|       |      |      |      |
    *                                 `--------------------'       `--------------------'
    */
-  [GAME] = KEYMAP(
+  [GAME] = LAYOUT_ergodox(
                   // left hand
                   BP_DOLLAR,    BP_DOUBLE_QUOTE,     BP_LEFT_GUILLEMET,   BP_RIGHT_GUILLEMET,   BP_LEFT_PAREN,    BP_RIGHT_PAREN,   KC_INSERT,
                   KC_TAB,       KC_KP_1,             KC_KP_2,             KC_UP,                KC_KP_3,          KC_KP_4,          KC_BSPC,
